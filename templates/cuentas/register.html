@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Registro</title>
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5 col-xl-8 col-lg-9 mx-auto">
+            <div class="card-body p-0">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">¡Crea tu cuenta!</h1>
+                    </div>
+
+                    {% if form.errors %}
+                    <div class="alert alert-danger small">
+                        {% for campo in form %}{% for e in campo.errors %}{{ campo.label }}: {{ e }}<br>{% endfor %}{% endfor %}
+                        {% for e in form.non_field_errors %}{{ e }}<br>{% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form class="user" method="post">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text" name="first_name" class="form-control form-control-user"
+                                    placeholder="Nombre" value="{{ form.first_name.value|default:'' }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" name="last_name" class="form-control form-control-user"
+                                    placeholder="Apellido" value="{{ form.last_name.value|default:'' }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="username" class="form-control form-control-user"
+                                placeholder="Usuario" value="{{ form.username.value|default:'' }}" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" class="form-control form-control-user"
+                                placeholder="Correo electrónico" value="{{ form.email.value|default:'' }}">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="password" name="password1" class="form-control form-control-user"
+                                    placeholder="Contraseña" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="password" name="password2" class="form-control form-control-user"
+                                    placeholder="Repetir contraseña" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-user btn-block">Registrarse</button>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <a class="small" href="{% url 'login' %}">¿Ya tienes una cuenta? ¡Inicia sesión!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

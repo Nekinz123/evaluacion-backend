@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Aventuras del Sur</title>
+
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'panel' %}">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-mountain"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Aventuras del Sur</div>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'panel' %}">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Inicio</span></a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            {% if user.rol == 'admin' %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'usuarios' %}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Usuarios</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'categorias' %}">
+                    <i class="fas fa-fw fa-tags"></i>
+                    <span>Categorías</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'experiencias' %}">
+                    <i class="fas fa-fw fa-hiking"></i>
+                    <span>Experiencias</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'reservas' %}">
+                    <i class="fas fa-fw fa-ticket-alt"></i>
+                    <span>Reservas</span></a>
+            </li>
+            {% elif user.rol == 'guia' %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'experiencias' %}">
+                    <i class="fas fa-fw fa-hiking"></i>
+                    <span>Mis experiencias</span></a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'catalogo' %}">
+                    <i class="fas fa-fw fa-compass"></i>
+                    <span>Catálogo</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'mis_reservas' %}">
+                    <i class="fas fa-fw fa-ticket-alt"></i>
+                    <span>Mis reservas</span></a>
+            </li>
+            {% endif %}
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <span class="nav-link text-gray-600">{{ user.get_full_name|default:user.username }} ({{ user.get_rol_display }})</span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-1"></i> Cerrar sesión
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <div class="container-fluid">
+                    {% block contenido %}{% endblock %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <script>
+        $('#dataTable').DataTable({
+            language: {
+                search: 'Buscar:',
+                lengthMenu: 'Mostrar _MENU_ registros',
+                info: 'Mostrando _START_ a _END_ de _TOTAL_ registros',
+                infoEmpty: 'Sin registros',
+                zeroRecords: 'No se encontraron resultados',
+                emptyTable: 'No hay datos disponibles',
+                paginate: { previous: 'Anterior', next: 'Siguiente' }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

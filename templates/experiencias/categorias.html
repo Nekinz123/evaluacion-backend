@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<h1 class="h3 mb-4 text-gray-800">Categorías</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <a href="{% url 'categoria_nueva' %}" class="btn btn-primary btn-sm">Nueva categoría</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in categorias %}
+                    <tr>
+                        <td>{{ c.nombre }}</td>
+                        <td>{{ c.descripcion }}</td>
+                        <td>{% if c.activo %}Activo{% else %}Inactivo{% endif %}</td>
+                        <td>
+                            <a href="{% url 'categoria_editar' c.id %}" class="btn btn-info btn-sm">Editar</a>
+                            <a href="{% url 'categoria_eliminar' c.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

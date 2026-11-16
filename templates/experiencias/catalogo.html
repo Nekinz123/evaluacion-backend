@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<h1 class="h3 mb-4 text-gray-800">Catálogo de experiencias</h1>
+
+{% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Categoría</th>
+                        <th>Fecha y hora</th>
+                        <th>Precio</th>
+                        <th>Cupo máximo</th>
+                        <th>Inscripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in experiencias %}
+                    <tr>
+                        <td>{{ e.titulo }}</td>
+                        <td>{{ e.descripcion }}</td>
+                        <td>{{ e.categoria }}</td>
+                        <td data-order="{{ e.fecha_hora|date:'Y-m-d H:i' }}">{{ e.fecha_hora|date:"d/m/Y H:i" }}</td>
+                        <td>${{ e.precio|floatformat:0 }}</td>
+                        <td>{{ e.cupo_maximo }}</td>
+                        <td>
+                            <form method="post" action="{% url 'inscribir' e.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm">Inscribirme</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<h1 class="h3 mb-4 text-gray-800">Mis reservas</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Experiencia</th>
+                        <th>Fecha de la experiencia</th>
+                        <th>Precio</th>
+                        <th>Fecha de inscripción</th>
+                        <th>Estado de pago</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in reservas %}
+                    <tr>
+                        <td>{{ r.experiencia.titulo }}</td>
+                        <td data-order="{{ r.experiencia.fecha_hora|date:'Y-m-d H:i' }}">{{ r.experiencia.fecha_hora|date:"d/m/Y H:i" }}</td>
+                        <td>${{ r.experiencia.precio|floatformat:0 }}</td>
+                        <td data-order="{{ r.fecha_inscripcion|date:'Y-m-d H:i' }}">{{ r.fecha_inscripcion|date:"d/m/Y H:i" }}</td>
+                        <td>{{ r.get_estado_pago_display }}</td>
+                        <td>
+                            <a href="{% url 'cancelar_reserva' r.id %}" class="btn btn-danger btn-sm">Cancelar</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

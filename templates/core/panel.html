@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<h1 class="h3 mb-4 text-gray-800">Bienvenido, {{ user.get_full_name|default:user.username }}</h1>
+<p>Tu rol: <strong>{{ user.get_rol_display }}</strong></p>
+{% endblock %}

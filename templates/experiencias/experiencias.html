@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<h1 class="h3 mb-4 text-gray-800">{% if user.rol == 'admin' %}Experiencias{% else %}Mis experiencias{% endif %}</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <a href="{% url 'experiencia_nueva' %}" class="btn btn-primary btn-sm">Nueva experiencia</a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Categoría</th>
+                        <th>Fecha y hora</th>
+                        <th>Precio</th>
+                        <th>Cupo máximo</th>
+                        <th>Creador</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for e in experiencias %}
+                    <tr>
+                        <td>{{ e.titulo }}</td>
+                        <td>{{ e.categoria }}</td>
+                        <td data-order="{{ e.fecha_hora|date:'Y-m-d H:i' }}">{{ e.fecha_hora|date:"d/m/Y H:i" }}</td>
+                        <td>${{ e.precio|floatformat:0 }}</td>
+                        <td>{{ e.cupo_maximo }}</td>
+                        <td>{{ e.creador }}</td>
+                        <td>
+                            <a href="{% url 'experiencia_editar' e.id %}" class="btn btn-info btn-sm">Editar</a>
+                            {% if user.rol == 'admin' %}
+                            <a href="{% url 'experiencia_eliminar' e.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
